@@ -1,0 +1,21 @@
+# template to substitute with actual values
+env: deploy
+db:
+  uri: "host={{db_host}} port={{db_port}} user={{db_user}} dbname={{db_name}} password={{db_password}}"
+  driver: postgres
+server:
+  port: 8000
+  host: "0.0.0.0"
+auth:
+  exp: 72 # hours
+  secret: {{secret_key}}
+app:
+  defaultTagsLimit: 100
+  searchTagsLimit: 10
+  defaultResultsOnPage: 10
+  maxResultsOnPage: 50
+data:
+  presets:
+    userPresetsPath: "./data/presets/users.json"
+    dictionaryPresetsPath: "./data/presets/dictionaries.json"
+    dictionaryEntryPresetsPath: "./data/presets/dictionary_entries.json"
