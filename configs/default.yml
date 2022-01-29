@@ -6,16 +6,3 @@ db:
 server:
   port: 8000
   host: "0.0.0.0"
-auth:
-  exp: 7200 # hours
-  secret: secret-key
-app:
-  defaultTagsLimit: 100
-  searchTagsLimit: 10
-  defaultResultsOnPage: 10
-  maxResultsOnPage: 50
-data:
-  presets:
-    userPresetsPath: "./data/presets/users.json"
-    dictionaryPresetsPath: "./data/presets/dictionaries.json"
-    dictionaryEntryPresetsPath: "./data/presets/dictionary_entries.json"

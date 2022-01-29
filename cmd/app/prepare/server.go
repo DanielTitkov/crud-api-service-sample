@@ -1,23 +1,24 @@
 package prepare
 
 import (
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/api/handler"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/app"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/configs"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/logger"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
-func NewServer(cfg configs.Config, logger *logger.Logger, app *app.App) *echo.Echo {
-	e := echo.New()
+func NewServer(cfg configs.Config, logger *logger.Logger, app *app.App) *gin.Engine {
+	r := gin.Default()
+	r.SetTrustedProxies(nil)
 
 	// Middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.CORS())
+	r.Use(gin.Logger())
+	r.Use(cors.Default())
 	if cfg.Env != "dev" {
-		e.Use(middleware.Recover())
+		r.Use(gin.Recovery())
 	}
-	handler.NewHandler(e, cfg, logger, app)
-	return e
+	handler.NewHandler(r, cfg, logger, app)
+	return r
 }

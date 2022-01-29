@@ -4,7 +4,7 @@ import (
 	"github.com/DanielTitkov/crud-api-service-sample/internal/app"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/configs"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/logger"
-	"github.com/labstack/echo"
+	"github.com/gin-gonic/gin"
 )
 
 type Handler struct {
@@ -14,7 +14,7 @@ type Handler struct {
 }
 
 func NewHandler(
-	e *echo.Echo,
+	r *gin.Engine,
 	cfg configs.Config,
 	logger *logger.Logger,
 	app *app.App,
@@ -24,14 +24,15 @@ func NewHandler(
 		logger: logger,
 		app:    app,
 	}
-	h.link(e)
+	h.link(r)
 	return h
 }
 
-func (h *Handler) link(e *echo.Echo) {
-	v1 := e.Group("/api/v1")
-	v1.POST("/createPizza", h.CreateUserHandler)
-	v1.POST("/getPizza", h.GetTokenHandler)
-	v1.POST("/updatePizza", h.SearchHandler)
-	v1.POST("/deletePizza", h.GetPublicUserHandler)
+func (h *Handler) link(r *gin.Engine) {
+	v1 := r.Group("/api/v1")
+	v1.POST("/createPizza", h.CreatePizzaHandler)
+	v1.POST("/getPizzaByID", h.GetPizzaByIDHandler)
+	v1.POST("/filterPizza", h.FilterPizzaHandler)
+	v1.POST("/updatePizza", h.UpdatePizzaHandler)
+	v1.POST("/deletePizzaByID", h.DeletePizzaByIDHandler)
 }

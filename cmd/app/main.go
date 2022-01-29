@@ -6,13 +6,13 @@ import (
 	"log"
 	"os"
 
-	"entgo.io/ent/examples/fs/ent"
 	"github.com/DanielTitkov/crud-api-service-sample/cmd/app/prepare"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/app"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/configs"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/logger"
 	"github.com/DanielTitkov/crud-api-service-sample/internal/repository/entgo"
-	_ "github.com/jackc/pgx/v4/stdlib"
+	"github.com/DanielTitkov/crud-api-service-sample/internal/repository/entgo/ent"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -54,5 +54,5 @@ func main() {
 	}
 
 	server := prepare.NewServer(cfg, logger, app)
-	logger.Fatal("failed to start server", server.Start(cfg.Server.GetAddress()))
+	logger.Fatal("failed to start server", server.Run(cfg.Server.GetAddress()))
 }
