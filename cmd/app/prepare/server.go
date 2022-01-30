@@ -14,11 +14,8 @@ func NewServer(cfg configs.Config, logger *logger.Logger, app *app.App) *gin.Eng
 	r.SetTrustedProxies(nil)
 
 	// Middleware
-	r.Use(gin.Logger())
 	r.Use(cors.Default())
-	if cfg.Env != "dev" {
-		r.Use(gin.Recovery())
-	}
-	handler.NewHandler(r, cfg, logger, app)
+
+	handler.SetupHandler(r, cfg, logger, app)
 	return r
 }

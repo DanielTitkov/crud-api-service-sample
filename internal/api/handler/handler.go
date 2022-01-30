@@ -13,7 +13,7 @@ type Handler struct {
 	app    *app.App
 }
 
-func NewHandler(
+func SetupHandler(
 	r *gin.Engine,
 	cfg configs.Config,
 	logger *logger.Logger,
@@ -32,7 +32,7 @@ func (h *Handler) link(r *gin.Engine) {
 	v1 := r.Group("/api/v1")
 	v1.POST("/createPizza", h.CreatePizzaHandler)
 	v1.POST("/getPizzaByID", h.GetPizzaByIDHandler)
-	v1.POST("/filterPizza", h.FilterPizzaHandler)
+	v1.POST("/getPizzas", h.GetPizzasHandler)
 	v1.POST("/updatePizza", h.UpdatePizzaHandler)
 	v1.POST("/deletePizzaByID", h.DeletePizzaByIDHandler)
 }

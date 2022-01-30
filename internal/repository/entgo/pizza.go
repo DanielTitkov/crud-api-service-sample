@@ -11,13 +11,17 @@ import (
 )
 
 func (r *EntgoRepository) CreatePizza(ctx context.Context, p *domain.Pizza) (*domain.Pizza, error) {
-	pizza, err := r.client.Pizza.
+	query := r.client.Pizza.
 		Create().
 		SetTitle(p.Title).
 		SetPrice(p.Price).
-		SetDescription(p.Description).
-		SetDough(pizza.Dough(p.Dough)).
-		Save(ctx)
+		SetDescription(p.Description)
+
+	if p.Dough != "" {
+		query.SetDough(pizza.Dough(p.Dough))
+	}
+
+	pizza, err := query.Save(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25,9 +29,19 @@ func (r *EntgoRepository) CreatePizza(ctx context.Context, p *domain.Pizza) (*do
 	return entToDomainPizza(pizza), nil
 }
 
-func (r *EntgoRepository) FilterPizza(ctx context.Context, args *domain.FilterPizzaArgs) ([]*domain.Pizza, error) {
-	// TODO
-	return nil, nil
+func (r *EntgoRepository) GetPizzas(ctx context.Context) ([]*domain.Pizza, error) {
+	pizzas, err := r.client.Pizza.
+		Query().All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []*domain.Pizza
+	for _, p := range pizzas {
+		result = append(result, entToDomainPizza(p))
+	}
+
+	return result, nil
 }
 
 func (r *EntgoRepository) UpdatePizza(ctx context.Context, p *domain.Pizza) (*domain.Pizza, error) {
@@ -39,11 +53,21 @@ func (r *EntgoRepository) UpdatePizza(ctx context.Context, p *domain.Pizza) (*do
 		return nil, err
 	}
 
-	storedPizza, err = storedPizza.Update().
-		SetPrice(p.Price).
-		SetDescription(p.Description).
-		SetDough(pizza.Dough(p.Dough)).
-		Save(ctx)
+	query := storedPizza.Update()
+
+	if p.Price != 0 {
+		query.SetPrice(p.Price)
+	}
+
+	if p.Description != "" {
+		query.SetDescription(p.Description)
+	}
+
+	if p.Dough != "" {
+		query.SetDough(pizza.Dough(p.Dough))
+	}
+
+	storedPizza, err = query.Save(ctx)
 	if err != nil {
 		return nil, err
 	}

@@ -4,33 +4,30 @@ type (
 	// Pizza is a common model to use in various api methods
 	Pizza struct {
 		ID          int    `json:"id"`
-		Title       string `json:"title"`
-		Description string `json:"description"`
+		Title       string `json:"title" binding:"required"`
+		Price       int64  `json:"price" binding:"required"`
+		Description string `json:"description,omitempty"`
 		Dough       string `json:"dough"`
-		Price       int64  `json:"price"`
 	}
 	CreatePizzaRequest struct {
 		Pizza
 	}
 	GetPizzaByIDRequest struct {
-		ID int `json:"id"`
+		ID int `json:"id" binding:"required"`
 	}
 	GetPizzaByIDResponse struct {
-		ID int `json:"id"`
+		Pizza
 	}
-	FilterPizzaRequest struct {
-		ID    []int    `json:"id"`
-		Title []string `json:"title"`
-		Dough []string `json:"dough"`
-		Price []int64  `json:"price"` // TODO: add less-than/greater-than operators
+	GetPizzasResponse struct {
+		Pizzas []Pizza `json:"pizzas"`
 	}
-	FilterPizzaResponse struct {
-		Result []Pizza `json:"result"`
-	}
-	UpdatePizzaByIDRequest struct {
-		ID int `json:"id"`
+	UpdatePizzaRequest struct {
+		ID          int    `json:"id" binding:"required"`
+		Price       int64  `json:"price"`
+		Description string `json:"description"`
+		Dough       string `json:"dough"`
 	}
 	DeletePizzaByIDRequest struct {
-		ID int `json:"id"`
+		ID int `json:"id" binding:"required"`
 	}
 )

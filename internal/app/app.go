@@ -9,7 +9,7 @@ import (
 )
 
 type (
-	// App combines services and holds business logic
+	// App combines services and holds top-level business logic
 	App struct {
 		cfg    configs.Config
 		logger *logger.Logger
@@ -20,7 +20,7 @@ type (
 		// pizza
 		CreatePizza(context.Context, *domain.Pizza) (*domain.Pizza, error)
 		UpdatePizza(context.Context, *domain.Pizza) (*domain.Pizza, error)
-		FilterPizza(context.Context, *domain.FilterPizzaArgs) ([]*domain.Pizza, error)
+		GetPizzas(context.Context) ([]*domain.Pizza, error)
 		GetPizzaByID(context.Context, int) (*domain.Pizza, error) // this may be as well deprecated in favor of "FilterPizza" method
 		DeletePizzaByID(context.Context, int) error
 	}
@@ -37,7 +37,7 @@ func NewApp(
 		repo:   repo,
 	}
 
-	// init app processes if any
+	// init app jobs, caches and preload data (if any)
 
 	return &app, nil
 }
