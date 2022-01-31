@@ -11,6 +11,7 @@ import (
 
 func NewServer(cfg configs.Config, logger *logger.Logger, app *app.App) *gin.Engine {
 	r := gin.Default()
+	//nolint
 	r.SetTrustedProxies(nil)
 
 	// Middleware

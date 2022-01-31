@@ -1,6 +1,29 @@
 # crud-api-service-sample
 
-Sample Golang JSON API service built with Gin and Entgo.
+Sample Golang JSON API service built with Gin and Entgo. 
+
+## 🍕🍕🍕
+
+## Requirements 
+
+In order to run service the following is required:
+* Golang (tested with 1.16)
+* Make (in order to use Makefile commands)
+* Docker (to run database in container)
+
+## Commands
+
+* `make run` to run service locally
+* `make test` to run tests
+* `make lint` to run linters (golangci-lint)
+* `make check` to run both tests and linters
+* `make build` to build service binary
+* `make db` to start dev database (with docker)
+* `make entgen` regenerate entgo files
+
+## Configuration 
+
+Configuration is passed as an argument e.g. `go run cmd/app/main.go ./configs/dev.yml`. Database URI, environment and server parameters can be specified in this file. 
 
 ## Methods
 

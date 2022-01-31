@@ -1,12 +1,6 @@
 NAME := app
 DEV_CONFIG_PATH := ./configs/dev.yml
 
-# Docker
-DOCKER_APP_FILENAME ?= deployments/docker/Dockerfile
-DOCKER_COMPOSE_FILE ?= deployments/docker-compose/docker-compose.yml
-
-CONFIG_PATH ?= ./configs/new.yml
-
 # Build
 BUILD_CMD ?= CGO_ENABLED=0 go build -o bin/${NAME} -ldflags '-v -w -s' ./cmd/${NAME}
 
@@ -28,15 +22,10 @@ build:
 	${BUILD_CMD}
 	echo "build done"
 
-.PHONY: up
-up:
-	docker-compose -f ${DOCKER_COMPOSE_FILE} up --build
-
 .PHONY: lint
 lint:
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.29.0
 	./bin/golangci-lint run -v
-
 
 .PHONY: check
 check: lint test
