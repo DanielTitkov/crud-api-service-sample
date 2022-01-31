@@ -1,5 +1,7 @@
 # crud-api-service-sample
 
+Sample Golang JSON API service built with Gin and Entgo.
+
 ## Methods
 
 Standart responses and empty requests are not shown here. 
